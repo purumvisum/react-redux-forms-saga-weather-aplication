@@ -1,12 +1,12 @@
-import React from 'react'
-import { connect } from 'react-redux'
+import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import SearchForm from '../components/form';
 import WeatherInfo from '../components/weatherInfo';
-import { Field, reduxForm, SubmissionError } from 'redux-form';
 
 class SearchPage extends React.Component {
 
-    componentDidMount () {
+    componentDidMount() {
         this.defaultLocation();
     }
 
@@ -14,52 +14,58 @@ class SearchPage extends React.Component {
         this.props.getDefaultLocation();
     }
 
-    validate = value => {
-        return value ? undefined : 'Required'
-    }
+    validate = value => (value ? undefined : 'Required');
 
-    submit = ({location}, dispatch) => {
-        // print the form values to the console
-        // console.log(location)
-        return new Promise((resolve,reject) => {
-            dispatch ({
-                type: 'FETCH_WEATHER',
-                location,
-                resolve,
-                reject
-            })
-        }).catch((error) => {
-            throw new error(error);
-        })
-    }
+    submit = ({ location }, dispatch) =>
+         new Promise((resolve, reject) => {
+             dispatch({
+                 type: 'FETCH_WEATHER',
+                 location,
+                 resolve,
+                 reject
+             });
+         }).catch((error) => {
+             throw new Error(error);
+         })
 
     render() {
         return (
-        <div>
-            <SearchForm
-                onDefaultLocation = {this.defaultLocation}
-                validate = {this.validate}
-                onSubmit={this.submit} />
-            <WeatherInfo
-                images = {this.props.images}
-                weather = { this.props.weather } />
-        </div>
+            <div>
+                <SearchForm
+                    onDefaultLocation={this.defaultLocation}
+                    validate={this.validate}
+                    onSubmit={this.submit}
+                />
+                <WeatherInfo
+                    images={this.props.images}
+                    weather={this.props.weather}
+                />
+            </div>
 
-        )
+        );
     }
 }
 
-function mapStateToProps (state) {
+// propTypes
+
+SearchPage.propTypes = {
+    getDefaultLocation: PropTypes.func.isRequired,
+    images: PropTypes.object.isRequired,
+    weather: PropTypes.object.isRequired
+};
+
+
+function mapStateToProps(state) {
     return {
         weather: state.weather,
         images: state.images
-    }
+    };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        getDefaultLocation: () => dispatch({ type: 'GET_DEFAULT_LOCATION' }),
+        getDefaultLocation: () => dispatch({ type: 'GET_DEFAULT_LOCATION' })
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchPage)
+export default connect(mapStateToProps, mapDispatchToProps)(SearchPage);

@@ -1,13 +1,11 @@
-// import thunkMiddleware from 'redux-thunk';
-import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
-// import { reducer as formReducer } from 'redux-form'
-import rootReducer from './reducers/reducers'
-import createSagaMiddleware from 'redux-saga'
+import { createStore, applyMiddleware, compose } from 'redux';
+import createSagaMiddleware from 'redux-saga';
+import rootReducer from './reducers/reducers';
 
-import root from './sagas/sagas'
+import root from './sagas/sagas';
 
 export default function configureStore() {
-    const sagaMiddleware = createSagaMiddleware()
+    const sagaMiddleware = createSagaMiddleware();
 
     const middleware = applyMiddleware(
         sagaMiddleware
@@ -20,7 +18,7 @@ export default function configureStore() {
 
     const store = createStoreWithMiddleware(createStore)(rootReducer);
 
-    sagaMiddleware.run(root)
+    sagaMiddleware.run(root);
 
     return store;
 }

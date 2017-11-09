@@ -1,5 +1,9 @@
 import React from 'react';
-import { Card, CardHeader, CardMedia, CardTitle } from 'material-ui/Card';
+import {
+    Card,
+    CardHeader,
+    CardMedia,
+    CardTitle } from 'material-ui/Card';
 
 import PropTypes from 'prop-types';
 
@@ -40,10 +44,11 @@ const WeatherInfo = props => {
                             <CardHeader
                                 title={currentCondition.title}
                                 subtitle={`${currentCondition.temp}*`}
-                                // avatar={props.images.locationImage}
                             />
                             <CardMedia
-                                overlay={<CardTitle title={tile.date} subtitle={`Temperature ${tile.low} ${tile.high}`} />}
+                                overlay={
+                                    <CardTitle title={tile.date} subtitle={`Temperature ${tile.low} ${tile.high}`} />
+                                }
                             >
                                 <img src={props.images.get(tile.text)} alt="" />
                             </CardMedia>
@@ -58,11 +63,14 @@ const WeatherInfo = props => {
     );
 };
 
+// propTypes
+
 WeatherInfo.propTypes = {
     weather: PropTypes.shape({
         forecast: PropTypes.array.isRequired,
         currentCondition: PropTypes.object.isRequired
-    }).isRequired
+    }).isRequired,
+    images: PropTypes.object.isRequired
 };
 
 export default WeatherInfo;
